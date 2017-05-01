@@ -13,13 +13,36 @@ const ticTacToe = () => {
   this.currentPlayer = 'X';
 };  
 
-TicTacToe.prototype.printBoard = (board) => {
-  // console.log the board, with newLines and O|X|O and ______
+TicTacToe.prototype.printBoard = () => {
+  // console.log the board, with newLines and O|X|O and _____
+  console.log(`
+    ${this.board[0]}|${this.board[1]}|${this.board[2]}
+    ______
+    ${this.board[3]}|${this.board[4]}|${this.board[5]}
+    ______
+    ${this.board[6]}|${this.board[7]}|${this.board[8]}
+  `);
 };
+
+TicTacToe.prototype.parseInput = (col, row) => {
+  return (col - 1) + (row - 1) * 3;
+};
+
+TicTacToe.prototype.legalMove = (index) => {
+  return this.board[index] === ''; // not undefined, i.e off the board. not X or O, i.e. full
+};
+
+
 
 TicTacToe.prototype.play = (player) => {
   // ask user for input
+  const playerInput = prompt(player, ', Enter your move col and row:');
   // parse input
+  const move = parseInput(playerInput);
+  if (legalMove(move)) {
+    this.board[move] = player;
+    this.printBoard();
+  }
   // if legal move
     // add move to board
     // print board
@@ -33,4 +56,6 @@ TicTacToe.prototype.play = (player) => {
     // console.log('invalid move, player ', this.currentPlayer);
     // call this.play(currentPlayer);  
 };
+
+
 
