@@ -32,29 +32,54 @@ TicTacToe.prototype.legalMove = (index) => {
   return this.board[index] === ''; // not undefined, i.e off the board. not X or O, i.e. full
 };
 
+TicTacToe.prototype.isVerticalWin = () => {
+  return (this.board[0] === this.board[3] && this.board[0] === this.board[6]) ||
+  (this.board[1] === this.board[4] && this.board[1] === this.board[7]) ||
+  (this.board[2] === this.board[5] && this.board[2] === this.board[8]);
+};
 
+TicTacToe.prototype.isDiaganolWin = () => {
+  return null;//out of time
+};
+
+TicTacToe.prototype.isHorizontalWin = () => {
+  return (this.board[0] === this.board[1] && this.board[0] === this.board[2]) ||
+  (this.board[3] === this.board[4] && this.board[3] === this.board[5]) ||
+  (this.board[6] === this.board[7] && this.board[6] === this.board[8]);
+};
+
+TicTacToe.prototype.isWin = () => {
+  return this.isVerticalWin() || this.isDiaganolWin() || this.isHorizontalWin();
+};
 
 TicTacToe.prototype.play = (player) => {
   // ask user for input
   const playerInput = prompt(player, ', Enter your move col and row:');
   // parse input
   const move = parseInput(playerInput);
-  if (legalMove(move)) {
-    this.board[move] = player;
-    this.printBoard();
-  }
   // if legal move
+  if (legalMove(move)) {
     // add move to board
+    this.board[move] = player;
     // print board
+    this.printBoard();
     // check for win
     // if win
-      // console.log('a winner is you, player ', this.player);
+    if (this.isWin(board)) {
+      console.log('a winner is you, player ', this.player);
+      return;
+    } else {
     // if no win
       // change this.currentPlayer to other player
+      this.currentPlayer = this.currentPlayer === 'X' ? 'O' : 'X';
       // call this.play(currentPlayer)
+      this.play(this.currentPlayer);
+    }
+  } else { 
   // if not legal input
-    // console.log('invalid move, player ', this.currentPlayer);
-    // call this.play(currentPlayer);  
+    console.log('invalid move, player ', this.currentPlayer);
+    this.play(currentPlayer);  
+  }
 };
 
 
